@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:wallpapers/core/routes/routes.dart';
-import 'package:wallpapers/screens/home_page.dart';
-import 'package:wallpapers/screens/search_page.dart';
 
 void main() {
   runApp( MyApp());
@@ -19,8 +17,8 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-     initialRoute: '/home',
-     onGenerateRoute: _forRoutes.routeGenerate,      
+     initialRoute: '/splash',
+     onGenerateRoute: _forRoutes.routeGenerate,    
     );
   }
 }

@@ -7,3 +7,7 @@ class SearchInitial extends SearchState{
 class TextState extends SearchState{
   TextState();
 }
+
+class CategoriesState extends SearchState{
+  CategoriesState();
+}

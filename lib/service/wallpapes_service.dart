@@ -8,7 +8,7 @@ class HttpService {
 
   
   static Future getDio() async{
-    Response res = await Dio().get("https://api.unsplash.com/photos?per_page=20",options: Options(headers: headers));    
+    Response res = await Dio().get("https://api.unsplash.com/photos?per_page=10",options: Options(headers: headers));    
     return res.data;
   }
   

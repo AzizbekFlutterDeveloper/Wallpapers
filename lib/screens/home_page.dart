@@ -1,77 +1,79 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:wallpapers/service/wallpapes_service.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:wallpapers/core/base/base_view.dart';
+import 'package:wallpapers/core/local_data/local_data.dart';
+import 'package:wallpapers/model/wallpaper_model.dart';
+import 'package:wallpapers/screens/bloc/search_cubit.dart';
+import 'package:wallpapers/screens/bloc/search_state.dart';
 import 'package:wallpapers/core/extension/size_extension.dart';
+import 'package:wallpapers/widgets/categories_widget.dart';
+import 'package:wallpapers/widgets/drawer_widget.dart';
+import 'package:wallpapers/widgets/image_builder.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
+    return BaseView(
+      viewModal: const HomePage(),
+      onPageBuilder: (context, widget){
+        return BlocProvider(
+        create: (context) => SearchCubit(),
+        child: BlocConsumer<SearchCubit, SearchState>(
+          listener: (context, state) {},
+          builder: (context, state) {
+            return _homeScaffold(context);
+          },
+        ),
+      );
+      },
+    );
+  }
+
+  Scaffold _homeScaffold(BuildContext context) {
+    List<Post> data = context.watch<SearchCubit>().homeData;
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: const Color.fromARGB(255, 8, 1, 1),
-        leading: IconButton(icon: Icon(Icons.menu,size: context.w *0.07,),onPressed: (){},),
+      drawer: drawer(context),
+      body: Column(
+        children: [
+          _homeAppBar(context),
+          Categories(contextt: context),
+          ImageBuilder(data: data,height: 0.822,),
+          
+        ],
+      ),
+    );
+  }
+
+  Container _homeAppBar(BuildContext context) {
+    return Container(
+      height: context.h * 0.11,
+      width: context.w,
+      decoration: const BoxDecoration(
+        borderRadius: BorderRadius.vertical(bottom: Radius.circular(30)),
+        color: Colors.black,
+      ),
+      child: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
         title: Text(
           "Wallpapers",
           style: TextStyle(
-            fontSize: context.w * 0.07,
+            fontSize: context.w * 0.08,
           ),
         ),
         actions: [
-          IconButton(onPressed: (){}, icon: Icon(Icons.search, size: context.w * 0.07,))
+          IconButton(
+            onPressed: () {
+              Navigator.pushNamed(context, '/search');
+            },
+            icon: Icon(
+              Icons.search,
+              size: context.w * 0.07,
+            ),
+          )
         ],
-      ),
-      body: FutureBuilder(
-        future: HttpService.getDio(),
-        builder: (context, AsyncSnapshot snap) {
-          if (!snap.hasData) {
-            return const Center(
-              child: CircularProgressIndicator.adaptive(),
-            );
-          } else if (snap.hasError) {
-            return Text("Data Error");
-          } else {
-            List data = snap.data;
-            return Column(
-              children: [
-                SizedBox(
-                  height: context.h * 0.08,
-                  width: context.w,
-                  child: ListView.builder(
-                    scrollDirection: Axis.horizontal,
-                    itemCount: 10,
-                    itemBuilder: (context, index) {
-                      return Container(
-                        height: context.h * 0.07,
-                      );
-                    },
-                  ),
-                ),
-                SizedBox(
-                  height: context.h * 0.820,
-                  width: context.w,
-                ),
-              ],
-            );
-          }
-        },
       ),
     );
   }
 }
-
-// return ListView.builder(
-            //   itemCount: data.length,
-            //   itemBuilder: (context, index) {
-            //     return Container(
-            //       height: 600,
-            //       margin: EdgeInsets.all(30),
-            //       width: 200,
-            //       color: Colors.amber,
-            //       child: CachedNetworkImage(
-            //         imageUrl: data[index]['urls']['raw'],
-            //         fit: BoxFit.cover,
-            //       ),
-            //     );
-            //   },
-            // );

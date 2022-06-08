@@ -1,12 +1,13 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wallpapers/screens/bloc/search_cubit.dart';
 import 'package:wallpapers/screens/bloc/search_state.dart';
+import 'package:wallpapers/core/extension/size_extension.dart';
 import 'package:wallpapers/service/wallpapers_search_service.dart';
+import 'package:wallpapers/widgets/image_builder.dart';
 
 class SearchPage extends StatelessWidget {
-  SearchPage({Key? key}) : super(key: key);
+  const SearchPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -14,36 +15,62 @@ class SearchPage extends StatelessWidget {
       create: (context) => SearchCubit(),
       child: BlocConsumer<SearchCubit, SearchState>(
         listener: (context, state) {},
-        builder: (context, state){
+        builder: (context, state) {
           return _myScaffold(context);
         },
       ),
     );
   }
+
   Scaffold _myScaffold(BuildContext context) {
     var data = context.watch<SearchCubit>().searchData;
     return Scaffold(
-    appBar: AppBar(
-      title: TextFormField(
-        onChanged: (v){
-          WallpapersServiceSearch.getDio(v).then((value){
-           context.read<SearchCubit>().addSearch(value);
-          });
-          
-        },
+      resizeToAvoidBottomInset: false,
+      body: Column(
+        children: [
+          _searchAppBar(context),
+          ImageBuilder(data: data,height: 0.89,)
+        ],
       ),
-    ),
-    body: ListView.builder(
-      itemCount: data == null ? 0 : data['results'].length,
-      itemBuilder: (context, index) {
-        return Container(
-          height: 300,
-          color: Colors.amber,
-          margin: EdgeInsets.all(30),
-          child: CachedNetworkImage(imageUrl: data['results'][index]['urls']['raw'],fit: BoxFit.cover,),
-        );
-      },
-    ),
-  );
+    );
+  }
+
+  Container _searchAppBar(BuildContext context) {
+    return Container(
+      height: context.h * 0.11,
+      width: context.w,
+      decoration: const BoxDecoration(
+        borderRadius: BorderRadius.vertical(bottom: Radius.circular(30)),
+        color: Colors.black,
+      ),
+      child: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        title: TextFormField(
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: context.w * 0.06,
+          ),
+          cursorColor: Colors.white,
+          decoration: const InputDecoration(
+            border: InputBorder.none,
+            hintText: "Search",
+            hintStyle: TextStyle(
+              color: Colors.white,
+            ),
+          ),
+          onChanged: (v) {
+            WallpapersServiceSearch.getDio(v).then((value) {
+              context.read<SearchCubit>().addSearch(value);
+            });
+          },
+        ),
+       
+      ),
+    );
   }
 }
+
+
+
+

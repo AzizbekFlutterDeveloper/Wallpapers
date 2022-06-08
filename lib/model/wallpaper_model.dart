@@ -1,10 +1,11 @@
+
 class Post {
     Post({
         this.id,
         this.createdAt,
         this.updatedAt,
         this.promotedAt,
-        this.width,
+      this.width,
         this.height,
         this.color,
         this.blurHash,
@@ -19,6 +20,7 @@ class Post {
         this.sponsorship,
         this.topicSubmissions,
         this.user,
+        this.tags,
     });
 
     String? id;
@@ -29,17 +31,18 @@ class Post {
     int? height;
     String? color;
     String? blurHash;
-    dynamic? description;
-    dynamic? altDescription;
+    String? description;
+    String? altDescription;
     Urls? urls;
     PostLinks? links;
     List<dynamic>? categories;
     int? likes;
     bool? likedByUser;
     List<dynamic>? currentUserCollections;
-    Sponsorship? sponsorship;
+    dynamic? sponsorship;
     TopicSubmissions? topicSubmissions;
     User? user;
+    List<dynamic>? tags;
 
     factory Post.fromJson(Map<String, dynamic> json) => Post(
         id: json["id"],
@@ -58,9 +61,10 @@ class Post {
         likes: json["likes"],
         likedByUser: json["liked_by_user"],
         currentUserCollections: List<dynamic>.from(json["current_user_collections"].map((x) => x)),
-        sponsorship: Sponsorship.fromJson(json["sponsorship"]),
+        sponsorship: json["sponsorship"],
         topicSubmissions: TopicSubmissions.fromJson(json["topic_submissions"]),
         user: User.fromJson(json["user"]),
+        tags: List<dynamic>.from(json["tags"].map((x) => x)),
     );
 
     
@@ -94,27 +98,43 @@ class PostLinks {
     };
 }
 
-class Sponsorship {
-    Sponsorship({
-        this.impressionUrls,
-        this.tagline,
-        this.taglineUrl,
-        this.sponsor,
-    });
+class TopicSubmissions {
+    TopicSubmissions();
 
-    List<String>? impressionUrls;
-    String? tagline;
-    String? taglineUrl;
-    User? sponsor;
-
-    factory Sponsorship.fromJson(Map<String, dynamic> json) => Sponsorship(
-        impressionUrls: List<String>.from(json["impression_urls"].map((x) => x)),
-        tagline: json["tagline"],
-        taglineUrl: json["tagline_url"],
-        sponsor: User.fromJson(json["sponsor"]),
+    factory TopicSubmissions.fromJson(Map<String, dynamic> json) => TopicSubmissions(
     );
 
-   
+    Map<String, dynamic> toJson() => {
+    };
+}
+
+class Urls {
+    Urls({
+        this.raw,
+        this.full,
+        this.regular,
+        this.small,
+        this.thumb,
+        this.smallS3,
+    });
+
+    String? raw;
+    String? full;
+    String? regular;
+    String? small;
+    String? thumb;
+    String? smallS3;
+
+    factory Urls.fromJson(Map<String, dynamic> json) => Urls(
+        raw: json["raw"],
+        full: json["full"],
+        regular: json["regular"],
+        small: json["small"],
+        thumb: json["thumb"],
+        smallS3: json["small_s3"],
+    );
+
+    
 }
 
 class User {
@@ -145,14 +165,14 @@ class User {
     String? username;
     String? name;
     String? firstName;
-    dynamic? lastName;
-    String? twitterUsername;
-    String? portfolioUrl;
-    String? bio;
-    dynamic ?location;
+    String? lastName;
+    dynamic? twitterUsername;
+    dynamic? portfolioUrl;
+    dynamic? bio;
+    dynamic? location;
     UserLinks? links;
     ProfileImage? profileImage;
-    String? instagramUsername;
+    dynamic? instagramUsername;
     int? totalCollections;
     int? totalLikes;
     int? totalPhotos;
@@ -182,7 +202,6 @@ class User {
         social: Social.fromJson(json["social"]),
     );
 
-   
 }
 
 class UserLinks {
@@ -257,10 +276,10 @@ class Social {
         this.paypalEmail,
     });
 
-    String? instagramUsername;
-    String? portfolioUrl;
-    String? twitterUsername;
-    dynamic? paypalEmail;
+    dynamic instagramUsername;
+    dynamic portfolioUrl;
+    dynamic twitterUsername;
+    dynamic paypalEmail;
 
     factory Social.fromJson(Map<String, dynamic> json) => Social(
         instagramUsername: json["instagram_username"],
@@ -274,51 +293,5 @@ class Social {
         "portfolio_url": portfolioUrl,
         "twitter_username": twitterUsername,
         "paypal_email": paypalEmail,
-    };
-}
-
-class TopicSubmissions {
-    TopicSubmissions();
-
-    factory TopicSubmissions.fromJson(Map<String, dynamic> json) => TopicSubmissions(
-    );
-
-    Map<String, dynamic> toJson() => {
-    };
-}
-
-class Urls {
-    Urls({
-        this.raw,
-        this.full,
-        this.regular,
-        this.small,
-        this.thumb,
-        this.smallS3,
-    });
-
-    String? raw;
-    String? full;
-    String? regular;
-    String? small;
-    String? thumb;
-    String? smallS3;
-
-    factory Urls.fromJson(Map<String, dynamic> json) => Urls(
-        raw: json["raw"],
-        full: json["full"],
-        regular: json["regular"],
-        small: json["small"],
-        thumb: json["thumb"],
-        smallS3: json["small_s3"],
-    );
-
-    Map<String, dynamic> toJson() => {
-        "raw": raw,
-        "full": full,
-        "regular": regular,
-        "small": small,
-        "thumb": thumb,
-        "small_s3": smallS3,
     };
 }
