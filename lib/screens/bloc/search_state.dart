@@ -11,3 +11,11 @@ class TextState extends SearchState{
 class CategoriesState extends SearchState{
   CategoriesState();
 }
+
+class LikesState extends SearchState{
+  LikesState();
+}
+
+class LoadingState extends SearchState{
+  LoadingState();
+}

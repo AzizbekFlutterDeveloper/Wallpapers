@@ -60,7 +60,7 @@ class SearchPage extends StatelessWidget {
             ),
           ),
           onChanged: (v) {
-            WallpapersServiceSearch.getDio(v).then((value) {
+            WallpapersServiceSearch.getDio(v,10).then((value) {
               context.read<SearchCubit>().addSearch(value);
             });
           },

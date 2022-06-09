@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wallpapers/core/base/base_view.dart';
-import 'package:wallpapers/core/local_data/local_data.dart';
 import 'package:wallpapers/model/wallpaper_model.dart';
 import 'package:wallpapers/screens/bloc/search_cubit.dart';
 import 'package:wallpapers/screens/bloc/search_state.dart';

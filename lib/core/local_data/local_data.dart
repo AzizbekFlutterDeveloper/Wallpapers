@@ -16,7 +16,7 @@ List drawers = [
 ];
 
 List categories = [
-  "All",
+  "Different",
   "Nature",
   "Car",
   "Animal",

@@ -13,7 +13,7 @@ drawer(BuildContext context) {
           height: context.h * 0.2,
           decoration: const BoxDecoration(
             image: DecorationImage(
-                fit: BoxFit.cover, image: AssetImage("assets/images/fon2.jpg")),
+                fit: BoxFit.cover, image: AssetImage("assets/images/fonyer.jpg")),
           ),
         ),
         for (var i = 0; i < 3; i++)

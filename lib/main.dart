@@ -18,7 +18,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
      initialRoute: '/splash',
-     onGenerateRoute: _forRoutes.routeGenerate,    
+     onGenerateRoute: _forRoutes.routeGenerate, 
     );
   }
 }

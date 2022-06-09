@@ -21,11 +21,30 @@ class SearchCubit extends Cubit<SearchState> {
 
   void addData(data, int count)async{
     categoriesCount = count;
-    await WallpapersServiceSearch.getDio(data).then((value) {
+    await WallpapersServiceSearch.getDio(data,10).then((value) {
       homeData = value;
-      print(homeData[0].urls!.raw);
     });
-    
     emit(CategoriesState());
+  }
+
+  bool likesBool = false;
+  int likesCount = 0;
+
+  void addLike(){
+    likesBool = !likesBool;
+    if(likesBool){
+      likesCount = 1;
+    }else{
+      likesCount = 0;
+    }
+    emit(LikesState());
+  }
+
+  bool isLoading = false;
+
+  void addLoading(){
+    isLoading = !isLoading;
+    print(isLoading);
+    emit(LoadingState());
   }
 }
